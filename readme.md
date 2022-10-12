@@ -46,4 +46,6 @@ false
 ```
 
 > Stop demo environment
+```
 docker compose -f demo/docker-compose.yml down
+```
