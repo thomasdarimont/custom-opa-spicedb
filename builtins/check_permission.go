@@ -7,7 +7,7 @@ import (
 	"github.com/open-policy-agent/opa/ast"
 	"github.com/open-policy-agent/opa/rego"
 	"github.com/open-policy-agent/opa/types"
-	"github.com/thomasdarimont/custom-opa/custom-opa-spicedb/plugins/auhtzed"
+	"github.com/thomasdarimont/custom-opa/custom-opa-spicedb/plugins/authzed"
 	"strings"
 )
 
@@ -72,7 +72,7 @@ func checkPermissionBuiltinImpl(bctx rego.BuiltinContext, resourceIdTerm, permis
 		return nil, errors.New("could not parse authzdb resource")
 	}
 
-	client := auhtzed.GetAuthzedClient()
+	client := authzed.GetAuthzedClient()
 	if client == nil {
 		return nil, errors.New("authzed client not configured")
 	}

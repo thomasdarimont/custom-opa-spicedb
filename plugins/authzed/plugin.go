@@ -1,4 +1,4 @@
-package auhtzed
+package authzed
 
 import (
 	"context"
