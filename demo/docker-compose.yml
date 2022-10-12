@@ -1,0 +1,27 @@
+services:
+  spicedb:
+    image: "authzed/spicedb:v1.13.0"
+    command: 'serve'
+    restart: "always"
+    ports:
+      - "28080:8080"
+      - "29090:9090"
+      - "50051:50051"
+    environment:
+      - "SPICEDB_GRPC_PRESHARED_KEY=foobar"
+
+  zed:
+    build:
+      context: ./zed
+      dockerfile: Dockerfile
+    tty: true
+    environment:
+      - "ENDPOINT=spicedb:50051"
+      - "TOKEN=foobar"
+      - "ZED_KEYRING_PASSWORD=spicedb"
+    volumes:
+      - ./schema-and-data.yml:/opt/schema-and-data.yml:z
+    depends_on:
+      - spicedb
+    links:
+      - spicedb
