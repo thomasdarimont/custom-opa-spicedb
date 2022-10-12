@@ -1,6 +1,14 @@
 Custom Open Policy Agent with prototypical support for Authzed
 ---
 
+This experiment adds support for querying relations from [Authzed](https://authzed.com/) / [SpiceDB](https://github.com/authzed/spicedb) via GRPC to check resource level permissions
+as custom builtin commands for [Open Policy Agent](https://www.openpolicyagent.org/).
+
+Currently only one command is supported:
+```
+authzed.check_permission("RESOURCE_ID","PERMISSION","SUBJECT") -> bool
+```
+
 # Build
 
 Not this example uses Go 1.19
