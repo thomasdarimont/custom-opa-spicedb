@@ -11,7 +11,7 @@ authzed.check_permission("RESOURCE_ID","PERMISSION","SUBJECT") -> bool
 
 # Build
 
-Not this example uses Go 1.19
+Note this example uses Go 1.19
 
 ```
 go get
