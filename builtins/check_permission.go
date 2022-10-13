@@ -43,7 +43,7 @@ func checkPermissionBuiltinImpl(bctx rego.BuiltinContext, subjectTerm, permissio
 	}
 
 	// Check if it is already cached, assume they never become invalid.
-	var cacheKey = checkPermissionCacheKeyType(fmt.Sprintf("%s#%s@%s", resource, permission, subject))
+	var cacheKey = checkPermissionCacheKeyType(fmt.Sprintf("%s#%s@%s", subject, permission, resource))
 	cached, ok := bctx.Cache.Get(cacheKey)
 	if ok {
 		return ast.NewTerm(cached.(ast.Value)), nil
