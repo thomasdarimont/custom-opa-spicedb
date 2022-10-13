@@ -14,33 +14,30 @@ import (
 var checkPermissionBuiltinDecl = &rego.Function{
 	Name: "authzed.check_permission",
 	Decl: types.NewFunction(
-		types.Args(types.S, types.S, types.S), // resource, permission, subject
+		types.Args(types.S, types.S, types.S), // subject, permission, resource
 		types.B),                              // Returns a boolean
 }
 
 // Use a custom cache key type to avoid collisions with other builtins caching data!!
 type checkPermissionCacheKeyType string
 
-// checkPermissionBuiltinImpl TODO
-func checkPermissionBuiltinImpl(bctx rego.BuiltinContext, resourceIdTerm, permissionTerm, subjectTerm *ast.Term) (*ast.Term, error) {
+// checkPermissionBuiltinImpl checks the given permission requests against spicedb.
+func checkPermissionBuiltinImpl(bctx rego.BuiltinContext, subjectTerm, permissionTerm, resourceIdTerm *ast.Term) (*ast.Term, error) {
 
 	// repository:authzed_go
 	var resource string
-
-	// clone
-	var permission string
-
-	// user:jake#...
-	var subject string
-
 	if err := ast.As(resourceIdTerm.Value, &resource); err != nil {
 		return nil, err
 	}
 
+	// clone
+	var permission string
 	if err := ast.As(permissionTerm.Value, &permission); err != nil {
 		return nil, err
 	}
 
+	// user:jake#...
+	var subject string
 	if err := ast.As(subjectTerm.Value, &subject); err != nil {
 		return nil, err
 	}

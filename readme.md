@@ -6,7 +6,7 @@ as custom builtin commands for [Open Policy Agent](https://www.openpolicyagent.o
 
 Currently only one command is supported:
 ```
-authzed.check_permission("RESOURCE_ID","PERMISSION","SUBJECT") -> bool
+authzed.check_permission("SUBJECT", "PERMISSION", "RESOURCE_ID") -> bool
 ```
 
 # Build
@@ -36,11 +36,11 @@ docker compose -f demo/docker-compose.yml up -d
 > Query relations against authzed
 > See the [example RBAC schema](./demo/schema-and-data.yml) for reference.
 ```
-> authzed.check_permission("document:firstdoc","view","user:tom")
+> authzed.check_permission("user:tom", "view", "document:firstdoc")
 true
-> authzed.check_permission("document:firstdoc","edit","user:tom")
+> authzed.check_permission("user:tom", "edit", "document:firstdoc")
 true
-> authzed.check_permission("document:firstdoc","edit","user:fred")
+> authzed.check_permission("user:fred", "edit", "document:firstdoc")
 false
 > exit
 ```
