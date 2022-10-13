@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="OPA Authzed" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="custom-opa-spicedb" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="run --set plugins.authzed.endpoint=localhost:50051 --set plugins.authzed.token=foobar --set plugins.authzed.insecure=true" />
+    <kind value="FILE" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <method v="2" />
+  </configuration>
+</component>
