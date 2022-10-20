@@ -3,9 +3,9 @@ module github.com/thomasdarimont/custom-opa/custom-opa-spicedb
 go 1.19
 
 require (
-	github.com/open-policy-agent/opa v0.45.0
 	github.com/authzed/authzed-go v0.7.0
 	github.com/authzed/grpcutil v0.0.0-20220104222419-f813f77722e5
+	github.com/open-policy-agent/opa v0.45.0
 	google.golang.org/grpc v1.50.0
 )
 
