@@ -39,44 +39,47 @@ func GetAuthzedClient() *authzed.Client {
 	return instance.client
 }
 
-func (a *AuthzedPlugin) Start(ctx context.Context) error {
+func (p *AuthzedPlugin) Start(ctx context.Context) error {
 
 	grpcSecurity := grpcutil.WithSystemCerts(grpcutil.VerifyCA)
-	if a.config.Insecure {
+	if p.config.Insecure {
 		grpcSecurity = grpc.WithInsecure()
 	}
 
 	client, err := authzed.NewClient(
-		a.config.Endpoint,
+		p.config.Endpoint,
 		// grpcutil.WithSystemCerts(grpcutil.VerifyCA),
 		grpcSecurity,
-		grpcutil.WithInsecureBearerToken(a.config.Token),
+		grpcutil.WithInsecureBearerToken(p.config.Token),
 	)
 
-	a.client = client
+	p.client = client
 
 	// HACK to expose plugin instance to be able to access the authzed client from the custom authzed check_permission builtin
-	instance = a
+	instance = p
+
+	p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateOK})
 
 	return err
 
 }
 
-func (a *AuthzedPlugin) Stop(ctx context.Context) {
+func (p *AuthzedPlugin) Stop(ctx context.Context) {
+	p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateNotReady})
 }
 
-func (a *AuthzedPlugin) Reconfigure(ctx context.Context, config any) {
+func (p *AuthzedPlugin) Reconfigure(ctx context.Context, config any) {
 
-	a.mtx.Lock()
-	defer a.mtx.Unlock()
+	p.mtx.Lock()
+	defer p.mtx.Unlock()
 
-	if a.config.Endpoint != config.(Config).Endpoint {
-		a.Stop(ctx)
-		if err := a.Start(ctx); err != nil {
-			a.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateErr})
+	if p.config.Endpoint != config.(Config).Endpoint {
+		p.Stop(ctx)
+		if err := p.Start(ctx); err != nil {
+			p.manager.UpdatePluginStatus(PluginName, &plugins.Status{State: plugins.StateErr})
 		}
 	}
-	a.config = config.(Config)
+	p.config = config.(Config)
 }
 
 type Factory struct{}
